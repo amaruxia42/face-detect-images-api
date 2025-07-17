@@ -27,39 +27,27 @@ S3 (deployment package)
 ---
 
 ## 🧰 Project Structure
-
+```
 face_detection_api/
 ├── modules/
-
 │   ├── api/
 │   │   ├── api.tf
-
 │   │   ├── variables.tf
-
 │   │   └── outputs.tf
-
 │   ├── iam/
-
 │   │   ├── iam.tf
-
 │   │   ├── variables.tf
-
 │   │   └── outputs.tf
-
 │   ├── lambda/
 │   │   ├── lambda.tf
-
 │   │   ├── detect_faces.py
-
 │   │   ├── outputs.tf
-
 │   │   └── variables.tf
-
 ├── main.tf
 ├── outputs.tf
 ├── providers.tf
 └── README.md
-
+```
 ## 🛠️ Stack
 
 - **Terraform**: Infrastructure as Code
@@ -95,6 +83,6 @@ terraform apply
 Once deployed, you can send a POST request to the API Gateway endpoint:
 curl -X POST https://YOUR-API-ID.execute-api.region.amazonaws.com/default/detect \
   -H "Content-Type: application/json" \
-  -d '{"image": "sample.jpg", "bucket": "faces-detect-images-bucket"}'
+  -d '{"image": "example.jpg", "bucket": "faces-detect-images-bucket"}'
   Make sure an example.jpg exists in the S3 (face images) bucket
 
