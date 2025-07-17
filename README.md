@@ -30,19 +30,31 @@ S3 (deployment package)
 
 face_detection_api/
 ├── modules/
+
 │   ├── api/
 │   │   ├── api.tf
+
 │   │   ├── variables.tf
+
 │   │   └── outputs.tf
+
 │   ├── iam/
+
 │   │   ├── iam.tf
+
 │   │   ├── variables.tf
+
 │   │   └── outputs.tf
+
 │   ├── lambda/
 │   │   ├── lambda.tf
+
 │   │   ├── detect_faces.py
+
 │   │   ├── outputs.tf
+
 │   │   └── variables.tf
+
 ├── main.tf
 ├── outputs.tf
 ├── providers.tf
