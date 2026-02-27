@@ -22,3 +22,24 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "deploy" {
     }
   }
 }
+
+resource "aws_s3_bucket_versioning" "deploy" {
+  bucket = aws_s3_bucket.deploy.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "deploy" {
+  bucket = aws_s3_bucket.deploy.id
+
+  rule {
+    id     = "expire-old-versions"
+    status = "Enabled"
+
+    noncurrent_version_expiration {
+      noncurrent_days = 30
+    }
+  }
+}
