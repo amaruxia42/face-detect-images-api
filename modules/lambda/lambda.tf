@@ -14,10 +14,14 @@ resource "aws_s3_object" "upload" {
 }
 
 resource "aws_lambda_function" "detect_faces" {
-  function_name = var.function_name
-  role          = var.iam_role_arn
-  handler       = var.lambda_handler
-  runtime       = var.runtime
+  function_name                  = var.function_name
+  role                           = var.iam_role_arn
+  handler                        = var.lambda_handler
+  runtime                        = var.runtime
+  source_code_hash               = data.archive_file.lambda_zip.output_base64sha256
+  # reserved_concurrent_executions = 10
+  # Reserved concurrency omitted due to account-level concurrency constraints.
+  # In production this would be set to limit blast radius and control costs.
 
   s3_bucket = var.s3_bucket
   s3_key    = var.s3_key
@@ -34,6 +38,13 @@ resource "aws_cloudwatch_log_group" "lambda_log" {
   name              = "/aws/lambda/${var.function_name}"
   retention_in_days = 14
 }
+
+
+
+
+
+
+
 
 
 
