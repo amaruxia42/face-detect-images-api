@@ -2,6 +2,7 @@
 resource "aws_apigatewayv2_api" "api" {
   name          = var.api_name
   protocol_type = "HTTP"
+  description   = "HTTPS-only endpoint enforced via API Gateway v2 — TLS termination managed by AWS"
 }
 
 resource "aws_apigatewayv2_integration" "lambda" {
@@ -26,9 +27,20 @@ resource "aws_apigatewayv2_stage" "default" {
   access_log_settings {
     destination_arn = aws_cloudwatch_log_group.api_log.arn
     format = jsonencode({
-      requestId = "$context.requestId",
-
+      requestId        = "$context.requestId",
+      sourceIp         = "$context.identity.sourceIp"
+      httpMethod       = "$context.httpMethod"
+      routeKey         = "$context.routeKey"
+      status           = "$context.status"
+      responseLength   = "$context.responseLength"
+      integrationError = "$context.integrationErrorMessage"
     })
+  }
+
+  default_route_settings {
+    detailed_metrics_enabled = true
+    throttling_burst_limit   = 100
+    throttling_rate_limit    = 50
   }
 }
 
@@ -44,3 +56,4 @@ resource "aws_cloudwatch_log_group" "api_log" {
   name              = "/aws/apigatewayv2/${var.api_name}"
   retention_in_days = 14
 }
+
